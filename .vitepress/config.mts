@@ -4,7 +4,7 @@ import baseConfig from 'vitepress-carbon/config'
 import { fileURLToPath } from 'node:url'
 import { createNav, createSidebar, docsRewrites, validateDocsCatalog } from './docs-catalog.mts'
 
-const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url))
+const repositoryRoot = fileURLToPath(new URL('..', import.meta.url))
 const docsDirectory = fileURLToPath(new URL('..', import.meta.url))
 validateDocsCatalog(docsDirectory)
 
@@ -71,7 +71,7 @@ const zhThemeConfig = {
     },
   },
   editLink: {
-    pattern: `${repository}/edit/master/docs/:path`,
+    pattern: `https://github.com/Alumopper/DatapackSandbox-Docs/edit/master/:path`,
     text: '编辑此页',
   },
   docFooter: {
@@ -134,7 +134,7 @@ const enThemeConfig = {
     },
   },
   editLink: {
-    pattern: `${repository}/edit/master/docs/:path`,
+    pattern: `https://github.com/Alumopper/DatapackSandbox-Docs/edit/master/:path`,
     text: 'Edit this page',
   },
   docFooter: {

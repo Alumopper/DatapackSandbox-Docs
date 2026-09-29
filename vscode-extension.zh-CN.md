@@ -18,19 +18,19 @@ Datapack Sandbox for VS Code 将数据包运行、测试、trace 调试和沙盒
 
 ## `.mcfunction` 语言支持
 
-扩展采用两层语言支持：TextMate grammar 在文件打开时立即处理注释、命令根、`execute ... run` 后的命令、selector、坐标、资源位置、字符串、数字、SNBT/JSON 括号和函数宏；随后，独立的 DSB JVM `serve` 会话提供 profile 感知的诊断、补全与悬停。语法着色不要求 Java 已经启动，智能能力也不依赖状态栏中的持久活动沙盒。
+扩展采用两层语言支持：TextMate grammar 在文件打开时立即处理注释、命令根、selector、坐标、资源位置、字符串、数字、SNBT/JSON 括号和函数宏；独立的 [Datapack Sandbox 语言服务器](https://github.com/Alumopper/DatapackSandbox-LSP) 通过标准 LSP 提供 profile 感知的诊断、补全、悬停和定义跳转。语法着色不要求 Java；运行和渲染仍使用独立的 CLI JSONL 会话。
 
 它提供与 Spyglass 同类的编辑体验，但没有嵌入或代理 Spyglass language server。DSB 使用自己的命令目录、补全引擎、数据包 loader 和 `checkCommands` 校验，因此编辑器提示与实际 DSB JVM 能运行的 Minecraft profile、命令行为等级和资源优先级一致；仓库中的 `@spyglassmc/mcdoc` 仍只负责构建期 vanilla NBT schema 生成。
 
 打开文件后可直接使用：
 
 - 对整篇 `.mcfunction` 做防抖校验，Problems 项定位到对应物理行；多行续写会按运行时相同的反斜杠规则合并。
-- 对命令根、子命令、selector、方块、物品、实体类型、函数和当前数据包资源补全；接受会插入空格、`:`、`=`、`{` 或 `[` 的候选后会立即打开下一阶段补全，空 `{}`/`[]` 模板会把光标留在内部。建议中显示 DSB behavior level 与当前 profile。
+- 对命令根、子命令、selector、方块、物品、实体类型和当前数据包函数补全；空 `{}`/`[]` 模板会把光标留在内部。
 - 悬停命令根查看 usage/profile，悬停 selector 查看执行语义，悬停数据包资源位置查看解析情况。
 - 在活动资源索引可以解析的字面量资源 ID 上执行 **Go to Definition** 或 Ctrl+单击：支持目录数据包中的函数/标签、战利品表、谓词、进度、配方、item modifier 及其他有实际文件的资源。
 - 对 `.mcfunction` 中不合法的前导 `/` 给出错误，并提供首选 Quick Fix 直接删除。宏命令仍会着色和导航，但含 `$(...)` 的整行不会在缺少调用参数时产生误报。
 
-语言会话首先使用 `datapackSandbox.defaultVersion`；若为空，则读取当前数据包 `pack.mcmeta` 的 `pack_format` 并选择匹配的最新内置 profile；无法匹配时使用 CLI 的规范默认 profile。保存、新建、删除或重命名 `.mcfunction`/数据资源时会复用现有 JVM 会话执行 reload 并刷新资源索引；修改 `pack.mcmeta` 才会因 profile 可能变化而重建会话。ZIP 数据包可以参与补全和校验，但 VS Code 无法直接跳转到 ZIP 内部定义。
+语言会话首先使用 `datapackSandbox.defaultVersion`；若为空，则读取当前数据包 `pack.mcmeta` 的 `pack_format` 并选择匹配的最新内置 profile；无法匹配时使用规范默认 profile。保存、新建、删除或重命名资源会刷新语言诊断与资源索引。ZIP 数据包可以参与补全和校验，但定义跳转只打开目录中的实际文件。
 
 ## 安装
 
@@ -189,21 +189,19 @@ Test Explorer 会发现工作区中的 `**/*.dps.json`，并提供四个 Profile
 
 ## 开发与打包
 
-扩展源码位于 `vscode/`：
+扩展源码位于 [VS Code 独立仓库](https://github.com/Alumopper/DatapackSandbox-VSCode)：
 
 ```powershell
-.\gradlew.bat :cli:fatJar
-cd vscode
-npm install
+npm ci
 npm test
 npm run package
 ```
 
-输出文件为 `build/datapack-sandbox-vscode.vsix`，发布者应为 **Alumopper**。打包脚本会复制刚构建的 standalone CLI JAR；不会嵌入浏览器运行时或 Mojang server JAR。
+输出文件为 `datapack-sandbox-vscode.vsix`，发布者仍为 **Alumopper**。打包脚本会获取锁定版本并校验 SHA-256 的 CLI、schema 和 LSP 产物。
 
 ## 限制
 
-TextMate 着色可以离线工作；profile 感知诊断、补全、悬停和索引资源跳转是 JVM CLI 的编辑器前端，需要本机 Java 25。定义跳转只打开目录数据包中有实际文件的资源，不打开 ZIP 内部条目或内置注册表值；宏行在没有实参时跳过语义诊断。Notebook 单元格不自动获得独立 `.mcfunction` 文件的语言能力。
+TextMate 着色可以离线工作；profile 感知诊断、补全、悬停和索引资源跳转需要内置 JVM 语言服务器及本机 Java 25。定义跳转只打开目录数据包中有实际文件的资源，不打开 ZIP 内部条目或内置注册表值。Notebook 单元格不自动获得独立 `.mcfunction` 文件的语言能力。
 
 ## 相关页面
 

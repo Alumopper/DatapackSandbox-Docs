@@ -118,7 +118,7 @@ export const docsRewrites = Object.fromEntries(
 export function validateDocsCatalog(docsDirectory: string): void {
   const ids = new Set<string>()
   const routes = new Set<string>()
-  const expectedRootMarkdown = new Set<string>(['index.md'])
+  const expectedRootMarkdown = new Set<string>(['index.md', 'README.md'])
 
   for (const entry of docsCatalog) {
     if (ids.has(entry.id)) throw new Error(`Duplicate documentation id: ${entry.id}`)

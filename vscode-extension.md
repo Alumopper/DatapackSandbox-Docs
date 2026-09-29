@@ -18,19 +18,19 @@ Datapack Sandbox for VS Code brings running, testing, trace debugging, and sandb
 
 ## `.mcfunction` language support
 
-The extension has two language layers. A TextMate grammar immediately recognizes comments, command roots, commands after `execute ... run`, selectors, coordinates, resource locations, strings, numbers, SNBT/JSON punctuation, and function macros. A separate DSB JVM `serve` session then supplies profile-aware diagnostics, completion, and hover. Highlighting does not wait for Java, and the smart language session is independent of the persistent sandbox shown in the status bar.
+The extension has two language layers. A TextMate grammar immediately recognizes comments, command roots, selectors, coordinates, resource locations, strings, numbers, SNBT/JSON punctuation, and function macros. The independent [Datapack Sandbox Language Server](https://github.com/Alumopper/DatapackSandbox-LSP) supplies profile-aware diagnostics, completion, hover, and definitions through standard LSP. Highlighting does not wait for Java. Running and rendering still use a separate CLI JSONL session.
 
 This provides the same category of editing experience as Spyglass, but it neither embeds nor proxies the Spyglass language server. DSB uses its own command catalog, completion engine, datapack loader, and `checkCommands` validation, keeping editor results aligned with the Minecraft profiles, behavior levels, and resource priority that the DSB JVM can actually execute. The repository's `@spyglassmc/mcdoc` dependency remains limited to build-time vanilla NBT schema generation.
 
 For an open `.mcfunction`, the extension provides:
 
 - Debounced whole-document validation with Problems attached to physical lines. Backslash continuations are joined with the same rules used by the runtime.
-- Completion for command roots, subcommands, selectors, blocks, items, entity types, functions, and resources loaded from the current pack. Accepting an item that inserts a space, `:`, `=`, `{`, or `[` immediately opens the next completion stage; empty `{}`/`[]` templates leave the caret inside. Suggestions identify the DSB behavior level and active profile.
+- Completion for command roots, subcommands, selectors, blocks, items, entity types, and functions loaded from the current pack. Empty `{}`/`[]` templates leave the caret inside.
 - Command usage/profile hover, selector semantics, and datapack-resource resolution hover.
 - **Go to Definition** (including Ctrl+click) for literal resource IDs resolved by the active resource index: functions/tags, loot tables, predicates, advancements, recipes, item modifiers, and other file-backed datapack resources in directory packs.
 - An error and preferred quick fix for a leading `/`, which is not valid in an `.mcfunction` command line. Macro commands still receive lexical support and navigation, but semantic validation skips lines containing `$(...)` because call arguments are unavailable in the editor.
 
-The language session first honors `datapackSandbox.defaultVersion`. When it is empty, the extension reads the nearest pack's `pack.mcmeta`, matches `pack_format` to the newest compatible built-in profile, and otherwise falls back to the CLI's canonical default. Saving, creating, deleting, or renaming a function or datapack JSON resource reloads the existing JVM session and refreshes its resource index; changing `pack.mcmeta` rebuilds the session because the profile may have changed. ZIP packs participate in completion and validation, but definition navigation cannot open entries inside a ZIP.
+The language session first honors `datapackSandbox.defaultVersion`. When it is empty, the server reads the nearest pack's `pack.mcmeta`, matches `pack_format` to the newest compatible built-in profile, and otherwise uses the canonical default. Saving, creating, deleting, or renaming a resource refreshes language diagnostics and resource lookup. ZIP packs participate in completion and validation, but definition navigation opens only file-backed directory resources.
 
 ## Install
 
@@ -188,21 +188,19 @@ Verify that the breakpoint is on a command that produces a trace and that `progr
 
 ## Develop and Package
 
-The extension source lives in `vscode/`:
+The extension source lives in the [VS Code repository](https://github.com/Alumopper/DatapackSandbox-VSCode):
 
 ```powershell
-.\gradlew.bat :cli:fatJar
-cd vscode
-npm install
+npm ci
 npm test
 npm run package
 ```
 
-The output is `build/datapack-sandbox-vscode.vsix`, and its publisher should be **Alumopper**.
+The output is `datapack-sandbox-vscode.vsix`, and its publisher remains **Alumopper**. Packaging fetches pinned, checksum-verified CLI, schema, and LSP assets.
 
 ## Limitations
 
-TextMate highlighting works offline; profile-aware diagnostics, completion, hover, and indexed resource navigation are a frontend for the JVM CLI and require local Java 25. Definition navigation opens file-backed resources in directory packs, not ZIP entries or built-in registry values, and semantic diagnostics skip macro lines without call arguments. Notebook cells do not automatically receive the standalone `.mcfunction` language features.
+TextMate highlighting works offline; profile-aware diagnostics, completion, hover, and indexed resource navigation require the bundled JVM Language Server and local Java 25. Definition navigation opens file-backed resources in directory packs, not ZIP entries or built-in registry values. Notebook cells do not automatically receive standalone `.mcfunction` language features.
 
 ## Related pages
 

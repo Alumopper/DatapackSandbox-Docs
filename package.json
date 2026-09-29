@@ -1,0 +1,20 @@
+{
+  "name": "datapack-sandbox-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:schema": "node tools/sync-schema.mjs",
+    "predocs:build": "npm run sync:schema",
+    "docs:build": "vitepress build .",
+    "predocs:dev": "npm run sync:schema",
+    "docs:dev": "vitepress dev . --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@datapack-sandbox/vitepress-playground": "0.2.2"
+  },
+  "devDependencies": {
+    "markdown-it-mathjax3": "^4.3.2",
+    "vitepress": "^1.6.4",
+    "vitepress-carbon": "1.6.0"
+  }
+}
