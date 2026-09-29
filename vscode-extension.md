@@ -10,7 +10,7 @@ You need VS Code 1.95 or newer and Java 25. The distributable VSIX bundles the C
 
 ## Minimal runnable example
 
-Install the [0.4.2 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2), open a datapack folder containing `pack.mcmeta`, and open any `.mcfunction`. Highlighting appears immediately and the JVM language session loads the pack in the background; **Start sandbox** is not required.
+Install the [0.5.0 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.5.0), open a datapack folder containing `pack.mcmeta`, and open any `.mcfunction`. Highlighting appears immediately and the JVM language session loads the pack in the background; **Start sandbox** is not required.
 
 ## Full capabilities
 
@@ -18,9 +18,9 @@ Datapack Sandbox for VS Code brings running, testing, trace debugging, and sandb
 
 ## `.mcfunction` language support
 
-The extension has two language layers. A TextMate grammar immediately recognizes comments, command roots, selectors, coordinates, resource locations, strings, numbers, SNBT/JSON punctuation, and function macros. The independent [Datapack Sandbox Language Server](https://github.com/Alumopper/DatapackSandbox-LSP) supplies profile-aware diagnostics, completion, hover, and definitions through standard LSP. Highlighting does not wait for Java. Running and rendering still use a separate CLI JSONL session.
+The extension has two language layers. A TextMate grammar immediately recognizes comments, command roots, selectors, coordinates, resource locations, strings, numbers, SNBT/JSON punctuation, and function macros. The independent [Datapack Sandbox Language Server](https://github.com/Alumopper/DatapackSandbox-LSP) supplies profile-aware diagnostics, completion, hover, definitions, references, symbols, signature help, and safe rename through standard LSP. Highlighting does not wait for Java. Running and rendering still use a separate CLI JSONL session.
 
-This provides the same category of editing experience as Spyglass, but it neither embeds nor proxies the Spyglass language server. DSB uses its own command catalog, completion engine, datapack loader, and `checkCommands` validation, keeping editor results aligned with the Minecraft profiles, behavior levels, and resource priority that the DSB JVM can actually execute. The repository's `@spyglassmc/mcdoc` dependency remains limited to build-time vanilla NBT schema generation.
+This provides the same category of editing experience as Spyglass, but it neither embeds nor proxies the Spyglass language server. DSB uses its own command catalog, completion engine, datapack loader, and `checkCommands` validation, keeping editor results aligned with the Minecraft profiles, behavior levels, and resource priority that the DSB JVM can actually execute. Pinned vanilla-mcdoc sources generate an offline editor schema at build time; ordinary editing and running need no network access.
 
 For an open `.mcfunction`, the extension provides:
 
@@ -30,11 +30,13 @@ For an open `.mcfunction`, the extension provides:
 - **Go to Definition** (including Ctrl+click) for literal resource IDs resolved by the active resource index: functions/tags, loot tables, predicates, advancements, recipes, item modifiers, and other file-backed datapack resources in directory packs.
 - An error and preferred quick fix for a leading `/`, which is not valid in an `.mcfunction` command line. Macro commands still receive lexical support and navigation, but semantic validation skips lines containing `$(...)` because call arguments are unavailable in the editor.
 
+JSON resources under `data/<namespace>/...` and `assets/<namespace>/...`, plus `pack.mcmeta`, receive field completion, type and version diagnostics, hover, and resource navigation. Resource ID rename edits only static, unique, writable references and includes the file rename; ZIP and dynamic macro references remain untouched. `.dps.json` keeps the extension's JSON Schema. Document formatting is not provided by this LSP.
+
 The language session first honors `datapackSandbox.defaultVersion`. When it is empty, the server reads the nearest pack's `pack.mcmeta`, matches `pack_format` to the newest compatible built-in profile, and otherwise uses the canonical default. Saving, creating, deleting, or renaming a resource refreshes language diagnostics and resource lookup. ZIP packs participate in completion and validation, but definition navigation opens only file-backed directory resources.
 
 ## Install
 
-The extension requires VS Code 1.95 or newer and Java 25. The `0.4.2` VSIX bundles the Datapack Sandbox CLI and independent LSP JARs, so users do not need to clone a repository, run Gradle, or configure jar paths. Sandbox execution, checkpoints, and rendering use the CLI JAR; editor language features use the LSP JAR.
+The extension requires VS Code 1.95 or newer and Java 25. The `0.5.0` VSIX bundles the Datapack Sandbox CLI and independent LSP JARs, so users do not need to clone a repository, run Gradle, or configure jar paths. Sandbox execution, checkpoints, and rendering use the CLI JAR; editor language features use the LSP JAR.
 
 Install the public Marketplace extension:
 
@@ -44,7 +46,7 @@ code --install-extension Alumopper.datapack-sandbox-vscode
 
 Or open [Datapack Sandbox in VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Alumopper.datapack-sandbox-vscode) and choose **Install**. Marketplace installation receives normal VS Code extension updates.
 
-For the LSP-backed release or an offline installation, download the VSIX from the [VS Code repository's release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2), choose **Install from VSIX...**, and select:
+For the LSP-backed release or an offline installation, download the VSIX from the [VS Code repository's release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.5.0), choose **Install from VSIX...**, and select:
 
 ```text
 datapack-sandbox-vscode.vsix

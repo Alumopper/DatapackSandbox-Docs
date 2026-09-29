@@ -10,7 +10,7 @@
 
 ## 最小可运行示例
 
-安装 [0.4.2 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2)，打开包含 `pack.mcmeta` 的数据包目录和任意 `.mcfunction`。着色会立即出现，JVM 语言会话随后在后台加载当前数据包；不需要先点击 **Start sandbox**。
+安装 [0.5.0 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.5.0)，打开包含 `pack.mcmeta` 的数据包目录和任意 `.mcfunction`。着色会立即出现，JVM 语言会话随后在后台加载当前数据包；不需要先点击 **Start sandbox**。
 
 ## 完整能力
 
@@ -18,9 +18,9 @@ Datapack Sandbox for VS Code 将数据包运行、测试、trace 调试和沙盒
 
 ## `.mcfunction` 语言支持
 
-扩展采用两层语言支持：TextMate grammar 在文件打开时立即处理注释、命令根、selector、坐标、资源位置、字符串、数字、SNBT/JSON 括号和函数宏；独立的 [Datapack Sandbox 语言服务器](https://github.com/Alumopper/DatapackSandbox-LSP) 通过标准 LSP 提供 profile 感知的诊断、补全、悬停和定义跳转。语法着色不要求 Java；运行和渲染仍使用独立的 CLI JSONL 会话。
+扩展采用两层语言支持：TextMate grammar 在文件打开时立即处理注释、命令根、selector、坐标、资源位置、字符串、数字、SNBT/JSON 括号和函数宏；独立的 [Datapack Sandbox 语言服务器](https://github.com/Alumopper/DatapackSandbox-LSP) 通过标准 LSP 提供 profile 感知的诊断、补全、悬停、定义跳转、引用、符号、签名提示和安全重命名。语法着色不要求 Java；运行和渲染仍使用独立的 CLI JSONL 会话。
 
-它提供与 Spyglass 同类的编辑体验，但没有嵌入或代理 Spyglass language server。DSB 使用自己的命令目录、补全引擎、数据包 loader 和 `checkCommands` 校验，因此编辑器提示与实际 DSB JVM 能运行的 Minecraft profile、命令行为等级和资源优先级一致；仓库中的 `@spyglassmc/mcdoc` 仍只负责构建期 vanilla NBT schema 生成。
+它提供与 Spyglass 同类的编辑体验，但没有嵌入或代理 Spyglass language server。DSB 使用自己的命令目录、补全引擎、数据包 loader 和 `checkCommands` 校验，因此编辑器提示与实际 DSB JVM 能运行的 Minecraft profile、命令行为等级和资源优先级一致；构建期使用固定版本的 vanilla-mcdoc 生成资源 JSON 字段索引，普通编辑和运行无需联网。
 
 打开文件后可直接使用：
 
@@ -34,7 +34,7 @@ Datapack Sandbox for VS Code 将数据包运行、测试、trace 调试和沙盒
 
 ## 安装
 
-扩展要求 VS Code 1.95 或更高版本以及 Java 25。`0.4.2` VSIX 内置 Datapack Sandbox CLI 和独立 LSP JAR，用户不需要克隆仓库、执行 Gradle 或配置 jar 路径。沙盒执行、检查点和渲染使用 CLI JAR；编辑器语言功能使用 LSP JAR。
+扩展要求 VS Code 1.95 或更高版本以及 Java 25。`0.5.0` VSIX 内置 Datapack Sandbox CLI 和独立 LSP JAR，用户不需要克隆仓库、执行 Gradle 或配置 jar 路径。沙盒执行、检查点和渲染使用 CLI JAR；编辑器语言功能使用 LSP JAR。
 
 安装 Marketplace 公开版本：
 
@@ -44,7 +44,7 @@ code --install-extension Alumopper.datapack-sandbox-vscode
 
 也可以打开 [VS Code Marketplace 中的 Datapack Sandbox](https://marketplace.visualstudio.com/items?itemName=Alumopper.datapack-sandbox-vscode) 并点击 **Install**。通过 Marketplace 安装后可正常接收 VS Code 扩展更新。
 
-需要 LSP 版本或离线安装时，从 [VS Code 仓库的 Release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2) 下载 VSIX，在扩展视图中选择 **从 VSIX 安装…**，然后选择：
+需要 LSP 版本或离线安装时，从 [VS Code 仓库的 Release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.5.0) 下载 VSIX，在扩展视图中选择 **从 VSIX 安装…**，然后选择：
 
 ```text
 datapack-sandbox-vscode.vsix
