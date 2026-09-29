@@ -8,7 +8,7 @@ Use the Jupyter kernel to execute native MCFunction one cell at a time, preserve
 
 - Python 3.10 or newer and JupyterLab or another frontend that supports custom kernels.
 - Java 25. A release wheel bundles a compatible CLI JAR but no Minecraft assets.
-- When installing from a checkout, build `cli/build/libs/datapack-sandbox-cli.jar` first.
+- When installing from a checkout, fetch the pinned CLI asset with `python scripts/fetch_cli.py`.
 
 ## Minimal runnable example
 
@@ -41,14 +41,15 @@ Successful MCF cells display a readable summary, structured metadata, and an inl
 ### Install from a checkout
 
 ```powershell
-.\gradlew.bat prepareJupyterKernel
-$env:DPS_CLI_JAR = ".\cli\build\libs\datapack-sandbox-cli.jar"
-python -m pip install -e ".\jupyter[test]" jupyterlab
+git clone https://github.com/Alumopper/DatapackSandbox-Jupyter.git
+cd DatapackSandbox-Jupyter
+python scripts/fetch_cli.py
+python -m pip install -e ".[test]" jupyterlab
 datapack-sandbox-kernel --user
-python -m jupyterlab examples/jupyter/datapack-sandbox-demo.ipynb
+python -m jupyterlab
 ```
 
-Set `DPS_JAVA` to select a Java 25 executable explicitly. Use `jupyter kernelspec list` to confirm that `datapack-sandbox` is registered. In VS Code, install Microsoft's Python and Jupyter extensions and select the same Python interpreter that owns the wheel.
+The [demo notebook](https://github.com/Alumopper/DatapackSandbox/blob/master/examples/jupyter/datapack-sandbox-demo.ipynb) is in the runtime repository. Set `DPS_JAVA` to select a Java 25 executable explicitly. Use `jupyter kernelspec list` to confirm that `datapack-sandbox` is registered. In VS Code, install Microsoft's Python and Jupyter extensions and select the same Python interpreter that owns the wheel.
 
 ### `%dps` magics
 

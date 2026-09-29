@@ -6,11 +6,11 @@
 
 ## 前置条件
 
-需要 VS Code 1.95 或更高版本和 Java 25；可分发 VSIX 已内置 CLI JAR。
+需要 VS Code 1.95 或更高版本和 Java 25；可分发 VSIX 已内置 CLI 与语言服务器 JAR。
 
 ## 最小可运行示例
 
-从 Marketplace 安装 `Alumopper.datapack-sandbox-vscode`，打开包含 `pack.mcmeta` 的数据包目录和任意 `.mcfunction`。着色会立即出现，JVM 语言会话随后在后台加载当前数据包；不需要先点击 **Start sandbox**。
+安装 [0.4.2 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2)，打开包含 `pack.mcmeta` 的数据包目录和任意 `.mcfunction`。着色会立即出现，JVM 语言会话随后在后台加载当前数据包；不需要先点击 **Start sandbox**。
 
 ## 完整能力
 
@@ -34,7 +34,7 @@ Datapack Sandbox for VS Code 将数据包运行、测试、trace 调试和沙盒
 
 ## 安装
 
-扩展要求 VS Code 1.95 或更高版本以及 Java 25。Marketplace `0.4.1` 与可分发 VSIX 都内置 Datapack Sandbox CLI JAR，因此用户不需要克隆仓库、执行 Gradle 或配置 `cliJarPath`。沙盒执行、校验、检查点和渲染始终由 JVM JAR 完成；扩展不会切换到浏览器运行时。
+扩展要求 VS Code 1.95 或更高版本以及 Java 25。`0.4.2` VSIX 内置 Datapack Sandbox CLI 和独立 LSP JAR，用户不需要克隆仓库、执行 Gradle 或配置 jar 路径。沙盒执行、检查点和渲染使用 CLI JAR；编辑器语言功能使用 LSP JAR。
 
 安装 Marketplace 公开版本：
 
@@ -44,7 +44,7 @@ code --install-extension Alumopper.datapack-sandbox-vscode
 
 也可以打开 [VS Code Marketplace 中的 Datapack Sandbox](https://marketplace.visualstudio.com/items?itemName=Alumopper.datapack-sandbox-vscode) 并点击 **Install**。通过 Marketplace 安装后可正常接收 VS Code 扩展更新。
 
-需要离线安装或固定版本时，从对应的 [GitHub Release](https://github.com/Alumopper/DatapackSandbox/releases/tag/1.1.0) 下载 VSIX，在扩展视图中选择 **从 VSIX 安装…**，然后选择：
+需要 LSP 版本或离线安装时，从 [VS Code 仓库的 Release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2) 下载 VSIX，在扩展视图中选择 **从 VSIX 安装…**，然后选择：
 
 ```text
 datapack-sandbox-vscode.vsix

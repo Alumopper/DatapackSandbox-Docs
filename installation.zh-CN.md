@@ -9,7 +9,7 @@
 - 运行已发布的 JVM 产物需要 Java 25。遇到 class-file 错误时先执行 `java -version`。
 - 从源码构建 JVM 模块同样需要 JDK 25 toolchain。
 - 从源码构建文档或 Web Playground 需要 Node.js 与 npm；仓库 lockfile 使用 `npm ci` 安装。
-- 本文对应发布版本 `1.1.0`。内置 Minecraft profile 覆盖 `1.20.4` 至 `26.2`，默认是 `26.2`。
+- CLI 发布版本为 `1.1.1`；下方 Maven 示例仍使用已发布的 `1.1.0` 坐标。内置 Minecraft profile 覆盖 `1.20.4` 至 `26.2`，默认是 `26.2`。
 
 ## 选择产物
 
@@ -19,7 +19,7 @@
 | 在 JVM 测试套件中编写 fluent 测试 | `testkit` | Gradle/Maven 测试依赖 |
 | 构建自定义 JVM 宿主 | `core` | Gradle/Maven 应用依赖 |
 | 渲染 PNG/GIF 或编译实时场景 | `renderer` + `core` | Gradle/Maven 应用依赖 |
-| 在 VS Code 中编辑与调试数据包 | VS Code 扩展 `0.4.1` | 从 Marketplace 安装 `Alumopper.datapack-sandbox-vscode`；已内置匹配的 CLI jar |
+| 在 VS Code 中编辑与调试数据包 | VS Code 扩展 | 安装[按版本发布的 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases)；已内置 CLI 和 LSP jar |
 | 运行持久化 Notebook cell | Jupyter kernel | 安装 Python wheel；已内置匹配的 CLI jar |
 | 在网页嵌入本地执行 | `@datapack-sandbox/vitepress-playground` | npm 依赖和打包 Worker |
 
@@ -97,9 +97,9 @@ dependencies {
 code --install-extension Alumopper.datapack-sandbox-vscode
 ```
 
-Marketplace 是推荐渠道，VS Code 可以正常接收扩展更新。`0.4.1` 已内置匹配的 CLI jar；只有当你确实想改用另一个本地构建时才设置 `datapackSandbox.cliJarPath`。Release 中仍保留 VSIX，供离线安装或固定版本使用。详见 [VS Code 扩展](/guide/vscode-extension)。
+从 Marketplace 安装后，VS Code 可以正常接收扩展更新。`0.4.2` [VSIX 发布包](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2)内置 CLI 与独立 LSP jar；仅在测试本地构建时设置 `datapackSandbox.cliJarPath` 或 `datapackSandbox.language.serverJarPath`。详见 [VS Code 扩展](/guide/vscode-extension)。
 
-Jupyter 可安装 release wheel，也可从 `jupyter/` 构建；wheel 同样内置 CLI jar，`DPS_CLI_JAR` 只用于显式选择其他构建。详见 [Jupyter](/integrations/jupyter)。
+Jupyter 可安装[发布的 wheel](https://github.com/Alumopper/DatapackSandbox-Jupyter/releases)，也可从其独立仓库构建；wheel 同样内置 CLI jar，`DPS_CLI_JAR` 只用于显式选择其他构建。详见 [Jupyter](/integrations/jupyter)。
 
 ### Web Playground
 

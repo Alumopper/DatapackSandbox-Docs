@@ -6,11 +6,11 @@ Use the extension for highlighting, diagnostics, completion, hover, and function
 
 ## Prerequisites
 
-You need VS Code 1.95 or newer and Java 25. The distributable VSIX already bundles the CLI JAR.
+You need VS Code 1.95 or newer and Java 25. The distributable VSIX bundles the CLI and language server JARs.
 
 ## Minimal runnable example
 
-Install `Alumopper.datapack-sandbox-vscode` from Marketplace, open a datapack folder containing `pack.mcmeta`, and open any `.mcfunction`. Highlighting appears immediately and the JVM language session loads the pack in the background; **Start sandbox** is not required.
+Install the [0.4.2 VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2), open a datapack folder containing `pack.mcmeta`, and open any `.mcfunction`. Highlighting appears immediately and the JVM language session loads the pack in the background; **Start sandbox** is not required.
 
 ## Full capabilities
 
@@ -34,7 +34,7 @@ The language session first honors `datapackSandbox.defaultVersion`. When it is e
 
 ## Install
 
-The extension requires VS Code 1.95 or newer and Java 25. Marketplace release `0.4.1` and the distributable VSIX bundle the Datapack Sandbox CLI JAR, so users do not need to clone the repository, run Gradle, or configure `cliJarPath`. All sandbox execution, validation, checkpoints, and rendering remain in the JVM JAR; the extension does not use the browser runtime.
+The extension requires VS Code 1.95 or newer and Java 25. The `0.4.2` VSIX bundles the Datapack Sandbox CLI and independent LSP JARs, so users do not need to clone a repository, run Gradle, or configure jar paths. Sandbox execution, checkpoints, and rendering use the CLI JAR; editor language features use the LSP JAR.
 
 Install the public Marketplace extension:
 
@@ -44,7 +44,7 @@ code --install-extension Alumopper.datapack-sandbox-vscode
 
 Or open [Datapack Sandbox in VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=Alumopper.datapack-sandbox-vscode) and choose **Install**. Marketplace installation receives normal VS Code extension updates.
 
-For an offline or pinned installation, download the VSIX from the matching [GitHub release](https://github.com/Alumopper/DatapackSandbox/releases/tag/1.1.0), choose **Install from VSIX...**, and select:
+For the LSP-backed release or an offline installation, download the VSIX from the [VS Code repository's release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2), choose **Install from VSIX...**, and select:
 
 ```text
 datapack-sandbox-vscode.vsix

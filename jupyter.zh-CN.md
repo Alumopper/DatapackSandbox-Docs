@@ -8,7 +8,7 @@
 
 - Python 3.10 或更新版本，以及 JupyterLab 或支持自定义 kernel 的 Notebook 前端。
 - Java 25。Release wheel 已内置兼容的 CLI JAR，但不包含 Minecraft 资产。
-- 从 checkout 安装时，先构建 `cli/build/libs/datapack-sandbox-cli.jar`。
+- 从 checkout 安装时，先运行 `python scripts/fetch_cli.py` 获取固定版本的 CLI 资产。
 
 ## 最小可运行示例
 
@@ -41,14 +41,15 @@ say notebook ready
 ### 从 checkout 安装
 
 ```powershell
-.\gradlew.bat prepareJupyterKernel
-$env:DPS_CLI_JAR = ".\cli\build\libs\datapack-sandbox-cli.jar"
-python -m pip install -e ".\jupyter[test]" jupyterlab
+git clone https://github.com/Alumopper/DatapackSandbox-Jupyter.git
+cd DatapackSandbox-Jupyter
+python scripts/fetch_cli.py
+python -m pip install -e ".[test]" jupyterlab
 datapack-sandbox-kernel --user
-python -m jupyterlab examples/jupyter/datapack-sandbox-demo.ipynb
+python -m jupyterlab
 ```
 
-`DPS_JAVA` 可显式选择 Java 25 executable。用 `jupyter kernelspec list` 确认 `datapack-sandbox` 已注册。VS Code 需要安装 Microsoft Python 与 Jupyter 扩展，并选择安装 wheel 的同一 Python 解释器。
+[示例 Notebook](https://github.com/Alumopper/DatapackSandbox/blob/master/examples/jupyter/datapack-sandbox-demo.ipynb) 位于运行时仓库。`DPS_JAVA` 可显式选择 Java 25 executable。用 `jupyter kernelspec list` 确认 `datapack-sandbox` 已注册。VS Code 需要安装 Microsoft Python 与 Jupyter 扩展，并选择安装 wheel 的同一 Python 解释器。
 
 ### `%dps` magics
 

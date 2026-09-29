@@ -9,7 +9,7 @@ Start here when deciding which Datapack Sandbox artifact belongs in a project. T
 - Running released JVM artifacts requires Java 25. Confirm with `java -version` before debugging class-file errors.
 - Building the repository's JVM modules from source also requires a JDK 25 toolchain.
 - Building the documentation or web playground requires Node.js and npm; the repository lockfile is installed with `npm ci`.
-- The documented release is `1.1.0`. Built-in Minecraft profiles span `1.20.4` through `26.2`, and `26.2` is the default.
+- The CLI release is `1.1.1`; the Maven examples below use the published `1.1.0` coordinates. Built-in Minecraft profiles span `1.20.4` through `26.2`, and `26.2` is the default.
 
 ## Choose an artifact
 
@@ -19,7 +19,7 @@ Start here when deciding which Datapack Sandbox artifact belongs in a project. T
 | Add fluent tests to a JVM test suite | `testkit` | Gradle/Maven test dependency |
 | Build a custom JVM host | `core` | Gradle/Maven application dependency |
 | Render PNG/GIF or compile a live scene | `renderer` + `core` | Gradle/Maven application dependencies |
-| Edit and debug datapacks inside VS Code | VS Code extension `0.4.1` | Install `Alumopper.datapack-sandbox-vscode` from Marketplace; the matching CLI jar is bundled |
+| Edit and debug datapacks inside VS Code | VS Code extension | Install the [versioned VSIX](https://github.com/Alumopper/DatapackSandbox-VSCode/releases); the CLI and LSP jars are bundled |
 | Run persistent notebook cells | Jupyter kernel | Install the Python wheel; the matching CLI jar is bundled |
 | Embed local execution in a website | `@datapack-sandbox/vitepress-playground` | npm dependency and bundled Worker |
 
@@ -97,9 +97,9 @@ Install the published [Datapack Sandbox extension from VS Code Marketplace](http
 code --install-extension Alumopper.datapack-sandbox-vscode
 ```
 
-Marketplace is the recommended channel because VS Code can update the extension normally. Release `0.4.1` bundles its matching CLI jar; only set `datapackSandbox.cliJarPath` when deliberately testing a different local build. The release VSIX remains available for offline or pinned installation. See [VS Code Extension](/en/guide/vscode-extension).
+Marketplace installation receives normal VS Code extension updates. The `0.4.2` [VSIX release](https://github.com/Alumopper/DatapackSandbox-VSCode/releases/tag/v0.4.2) bundles the CLI and standalone LSP jars; set `datapackSandbox.cliJarPath` or `datapackSandbox.language.serverJarPath` only when testing local builds. See [VS Code Extension](/en/guide/vscode-extension).
 
-The Jupyter package can be installed from its release wheel or built from `jupyter/`; the wheel also bundles the CLI jar, while `DPS_CLI_JAR` can explicitly select another build. See [Jupyter](/en/integrations/jupyter).
+The Jupyter package can be installed from its [release wheel](https://github.com/Alumopper/DatapackSandbox-Jupyter/releases) or built from its own repository; the wheel also bundles the CLI jar, while `DPS_CLI_JAR` can explicitly select another build. See [Jupyter](/en/integrations/jupyter).
 
 ### Web playground
 
